@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36327.8 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minecraft2D-GameJam", "Minecraft2D-GameJam\Minecraft2D-GameJam.csproj", "{073AFCF3-7D35-45AB-83FF-E1AAF575CACD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{073AFCF3-7D35-45AB-83FF-E1AAF575CACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{073AFCF3-7D35-45AB-83FF-E1AAF575CACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{073AFCF3-7D35-45AB-83FF-E1AAF575CACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{073AFCF3-7D35-45AB-83FF-E1AAF575CACD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B6EED6DA-5B2C-42E7-8EF7-46A2B0DE0D84}
+	EndGlobalSection
+EndGlobal
