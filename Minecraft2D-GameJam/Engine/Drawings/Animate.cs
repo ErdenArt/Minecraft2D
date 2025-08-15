@@ -10,19 +10,19 @@ namespace Engine.Drawings
 
         public Animate(Vector2 position, Vector2Int spriteSize) : base(position)
         {
-            this.spriteSize = spriteSize;
+            this.textureSize = spriteSize;
         }
         public Animate(Vector2 position, Vector2Int spriteSize,int endFrame) : base(position)
         {
-            this.spriteSize = spriteSize;
+            this.textureSize = spriteSize;
             this.endFrame = endFrame;
         }
         public void PlayAnimation(int frame, float drawOrder = 0f)
         {
             curFrame = frame % (endFrame - 1);
-            int x = (curFrame * spriteSize.X) % texture.Width;
-            int y = ((curFrame * spriteSize.X) / texture.Width) * spriteSize.Y;
-            Rectangle rectangle = new Rectangle(x,y,spriteSize.X,spriteSize.Y);
+            int x = (curFrame * textureSize.X) % texture.Width;
+            int y = ((curFrame * textureSize.X) / texture.Width) * textureSize.Y;
+            Rectangle rectangle = new Rectangle(x,y,textureSize.X,textureSize.Y);
             base.Draw(rectangle, drawOrder: drawOrder);
         }
         public void ChangeCycle(int startFrame, int endFrame)

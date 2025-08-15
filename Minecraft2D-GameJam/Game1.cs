@@ -34,6 +34,7 @@ namespace Minecraft2D_GameJam
             GLOBALS.SpriteBatch = _spriteBatch;
             GLOBALS.Pixel = GLOBALS.CreateWhitePixel(GraphicsDevice);
             GLOBALS.Font = Content.Load<SpriteFont>("Font");
+            GLOBALS.Game = this;
             gameManager = new GameManager(this);
             // TODO: use this.Content to load your game content here
         }

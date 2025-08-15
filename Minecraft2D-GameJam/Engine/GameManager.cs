@@ -30,6 +30,13 @@ namespace Engine
         }
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
+            var frame = sceneManager.GetFrame();
+
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(frame, Vector2.Zero, Color.White);
+            spriteBatch.End();
+
             rendererGUI.BeginLayout(gameTime);
             ImGui.Text("FPS: " + (1 / gameTime.ElapsedGameTime.TotalSeconds).ToString("F2"));
             ImGui.Text("Time since start: " + gameTime.TotalGameTime.TotalSeconds.ToString("F2"));

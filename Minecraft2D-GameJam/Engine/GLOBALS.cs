@@ -15,6 +15,7 @@ namespace Engine
         public static GraphicsDevice GraphicsDevice { get; set; }
         public static GraphicsDeviceManager Graphics { get; set; }
         public static SpriteBatch SpriteBatch { get; set; }
+        public static Game Game { get; set; }
         public static GameTime Time { get; set; }
         public static float DeltaTime { get; set; }
         public static Texture2D Pixel;

@@ -27,10 +27,6 @@ namespace Engine.TileMap
         {
 
         }
-        public new void Draw()
-        {
-            base.Draw(color: color);
-        }
         public bool TestPointHexagon(Camera camera)
         {
             //This needs to be changed if tiles are in diffrent size

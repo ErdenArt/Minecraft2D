@@ -10,7 +10,8 @@ namespace Engine.Drawings
         public Texture2D texture;
         public Vector2 position = Vector2.Zero;
         public Vector2 offSet = Vector2.Zero;
-        public Vector2Int spriteSize = Vector2Int.Zero;
+        public Vector2Int textureSize = Vector2Int.Zero;
+        public float spriteSizeScale = 1f;
         public bool isVisible = true;
         public Point drawPosition => position.ToPoint();
         public Sprite()
@@ -20,20 +21,20 @@ namespace Engine.Drawings
         {
             this.texture = texture;
             this.position = Vector2.Zero;
-            spriteSize = (Vector2Int)texture.Bounds.Size;
+            textureSize = (Vector2Int)texture.Bounds.Size;
         }
         public Sprite(Texture2D texture, Vector2 position, Vector2 offSet = default)
         {
             this.texture = texture;
             this.position = position;
-            spriteSize = (Vector2Int)texture.Bounds.Size;
+            textureSize = (Vector2Int)texture.Bounds.Size;
             this.offSet = offSet;
         }
         public Sprite(Texture2D texture, Point position)
         {
             this.texture = texture;
             this.position = position.ToVector2();
-            spriteSize = (Vector2Int)texture.Bounds.Size;
+            textureSize = (Vector2Int)texture.Bounds.Size;
         }
         public Sprite(Vector2 position)
         {
@@ -50,8 +51,8 @@ namespace Engine.Drawings
             GLOBALS.SpriteBatch.Draw(texture,
                              new Rectangle(drawPosition.X,
                                            drawPosition.Y,
-                                           spriteSize.X,
-                                           spriteSize.Y),
+                                           textureSize.X,
+                                           textureSize.Y),
                              Color.White);
         }
         public virtual void Draw()
@@ -61,9 +62,9 @@ namespace Engine.Drawings
             //From Center of position
             GLOBALS.SpriteBatch.Draw(
                               texture,
-                              new Vector2(position.X - spriteSize.X / 2,
-                                           position.Y - spriteSize.Y / 2),
-                              new Rectangle(0, 0, spriteSize.X, spriteSize.Y), 
+                              new Vector2(position.X - textureSize.X / 2,
+                                           position.Y - textureSize.Y / 2),
+                              new Rectangle(0, 0, textureSize.X, textureSize.Y), 
                               Color.White);
         }
         public virtual void DrawVector()
@@ -72,8 +73,8 @@ namespace Engine.Drawings
                 return;
             //From Center of position
             GLOBALS.SpriteBatch.Draw(texture,
-                             new Vector2(drawPosition.X - spriteSize.X / 2 + offSet.X,
-                                           drawPosition.Y - spriteSize.Y / 2 + offSet.Y),
+                             new Vector2(drawPosition.X - textureSize.X / 2 + offSet.X,
+                                           drawPosition.Y - textureSize.Y / 2 + offSet.Y),
                              Color.White);
         }
         public virtual void Draw(Texture2D texture)
@@ -82,36 +83,36 @@ namespace Engine.Drawings
                 return;
             //From Center of position
             GLOBALS.SpriteBatch.Draw(texture,
-                             new Rectangle(drawPosition.X - spriteSize.X / 2,
-                                           drawPosition.Y - spriteSize.Y / 2,
-                                           spriteSize.X,
-                                           spriteSize.Y),
+                             new Rectangle(drawPosition.X - textureSize.X / 2,
+                                           drawPosition.Y - textureSize.Y / 2,
+                                           textureSize.X,
+                                           textureSize.Y),
                              Color.White);
         }
 
 
         float minZ = -1000f;
         float maxZ = 1000f;
-        public virtual void Draw(Rectangle source = default, Color color = default, float drawOrder = 0)
+        public virtual void Draw(Rectangle source, Color color = default, float drawOrder = 0)
         {
             if (isVisible == false)
                 return;
             if (color == default)
                 color = Color.White;
-            if (source == default)
-                source = new Rectangle(0, 0, texture.Width, texture.Height);
+            //if (source == default)
+            //    source = new Rectangle(0, 0, texture.Width, texture.Height);
 
             // layerDepth musi być od 0f do 1f
             float layerDepth = 1f - Math.Clamp((drawOrder - minZ) / (maxZ - minZ), 0f, 1f);
             //From Center of position
             GLOBALS.SpriteBatch.Draw(
                              texture,
-                             new Vector2((position.X + offSet.X - spriteSize.X / 2), (position.Y + offSet.Y - spriteSize.Y / 2)),
+                             new Vector2((position.X + offSet.X - textureSize.X / 2), (position.Y + offSet.Y - textureSize.Y / 2)),
                              source,
                              color,
                              0f,
                              Vector2.Zero,
-                             1f,
+                             spriteSizeScale,
                              SpriteEffects.None,
                              layerDepth);
         }
