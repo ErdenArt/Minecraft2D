@@ -1,4 +1,4 @@
-﻿using Minecraft2D_GameJam.Scenes;
+﻿using Minecraft2D.Scenes;
 using System.Collections.Generic;
 
 namespace Engine.Scenes

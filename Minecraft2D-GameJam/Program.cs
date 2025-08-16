@@ -1,2 +1,2 @@
-﻿using var game = new Minecraft2D_GameJam.Game1();
+﻿using var game = new Minecraft2D.Game1();
 game.Run();

@@ -1,17 +1,20 @@
 ﻿
 using Engine;
+using ImGuiNET;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Minecraft2D_GameJam.Scripts
+namespace Minecraft2D.Scripts
 {
     internal class Player : Sprite
     {
         Rectangle frameRender = Rectangle.Empty;
+        Rectangle hitbox { get { return new Rectangle(drawPosition.X - 8, drawPosition.Y - 8, 16, 16); } }
         enum LookDirections
         {
             Down,
@@ -21,7 +24,8 @@ namespace Minecraft2D_GameJam.Scripts
         }
         LookDirections currentLookDir;
         float speed = 2;
-        public Player()
+        List<Tree> trees;
+        public Player(ref List<Tree> trees)
         {
             texture = GLOBALS.Content.Load<Texture2D>("player");
             textureSize = new Vector2Int(16, 16);
@@ -29,9 +33,37 @@ namespace Minecraft2D_GameJam.Scripts
             spriteSizeScale = 3f;
 
             currentLookDir = LookDirections.Down;
+
+            this.trees = trees;
         }
         int animateTime;
         public void Update()
+        {
+            Movement();
+
+            float range = 10;
+            
+            Vector2 attackPos = new Vector2();
+            switch (currentLookDir)
+            {
+                case LookDirections.Down:  attackPos = new Vector2(0,range); break;
+                case LookDirections.Left:  attackPos = new Vector2(-range,0); break;
+                case LookDirections.Up:    attackPos = new Vector2(0,-range); break;
+                case LookDirections.Right: attackPos = new Vector2(range,0); break;
+            }
+            attackPos += position;
+            if (Input.GetKeyDown(Keys.L))
+            {
+                foreach (Tree tree in trees)
+                {
+                    if (tree.hitbox.Contains(attackPos.X, attackPos.Y))
+                    {
+                        tree.isActive = false;
+                    }
+                }
+            }
+        }
+        void Movement()
         {
             bool isMoving = false;
             Vector2 moveDir = Input.LeftStickDirection;
@@ -50,9 +82,45 @@ namespace Minecraft2D_GameJam.Scripts
             int doAnimate = isMoving ? 1 : 0;
             int frame = (animateTime / 15) + 1;
 
-            frameRender = new Rectangle(textureSize.Width * doAnimate * frame, textureSize.Height * dir, textureSize.Width,textureSize.Height);
+            frameRender = new Rectangle(textureSize.Width * doAnimate * frame, textureSize.Height * dir, textureSize.Width, textureSize.Height);
 
-            position += moveDir;
+            Rectangle newHitBox = new Rectangle(hitbox.X + (int)moveDir.X, hitbox.Y, hitbox.Width, hitbox.Height);
+            foreach (var t in trees)
+            {
+                if (newHitBox.Intersects(t.hitbox))
+                {
+                    if (moveDir.X > 0)
+                    {
+                        position.X = t.hitbox.Left - textureSize.Width / 2;
+                        moveDir.X = 0;
+                    }
+                    if (moveDir.X < 0)
+                    {
+                        position.X = t.hitbox.Right + textureSize.Width / 2;
+                        moveDir.X = 0;
+                    }
+                }
+            }
+            position.X += moveDir.X;
+
+            newHitBox = new Rectangle(hitbox.X, hitbox.Y + (int)moveDir.Y, hitbox.Width, hitbox.Height);
+            foreach (var t in trees)
+            {
+                if (newHitBox.Intersects(t.hitbox))
+                {
+                    if (moveDir.Y < 0)
+                    {
+                        position.Y = t.hitbox.Bottom + textureSize.Height / 2;
+                        moveDir.Y = 0;
+                    }
+                    if (moveDir.Y > 0)
+                    {
+                        position.Y = t.hitbox.Top - textureSize.Height / 2;
+                        moveDir.Y = 0;
+                    }
+                }
+            }
+            position.Y += moveDir.Y;
         }
         void ChangeLookDir(Vector2 moveDir)
         {

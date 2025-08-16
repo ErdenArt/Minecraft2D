@@ -17,8 +17,8 @@ namespace Engine.Drawings.Particle
         public float gravityDir;          // Direction on where gravity will drag (in degrees)
         public Vector2 gravityDirVector;  // Direction on where gravity will drag (in Vector2)
         public float drag;                // Slows down the movement over time  
-        public bool colideWithFloor;      // True: will colide with some wall
-        public float bounceStrength;      // Power of bouncing of floor. If zero it will instantly stop
+        //public bool colideWithFloor;      // True: will colide with some wall
+        //public float bounceStrength;      // Power of bouncing of floor. If zero it will instantly stop
         public float floorY;              // Positive will collide with upper floor. Negative or zero will collide with bottom floor
 
 

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Minecraft2D_GameJam
+namespace Minecraft2D
 {
     public class Game1 : Game
     {

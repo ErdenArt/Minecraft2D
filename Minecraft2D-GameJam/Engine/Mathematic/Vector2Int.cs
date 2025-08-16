@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Xna.Framework;
 
 namespace Engine.Mathematic
@@ -33,13 +34,23 @@ namespace Engine.Mathematic
             X = (int)Math.Floor(x);
             Y = (int)Math.Floor(y);
         }
-        public static bool operator ==(Vector2Int a, Vector2Int b)
+        public static bool operator == (Vector2Int a, Vector2Int b)
         {
             return a.X == b.X && a.Y == b.Y;
         }
         public static bool operator !=(Vector2Int a, Vector2Int b)
         {
-            return !(a == b);
+            return a.X != b.X || a.Y != b.Y;
+        }
+        // Do not use Equals or GetHashCode. Im not changing it cuz I dont know when or why you should use it.
+        // And without placing it in code it will give me a warning. Kinda stupid
+        public override bool Equals([NotNullWhen(true)] object obj)
+        {
+            return base.Equals(obj);
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
         public static Vector2Int operator -(Vector2Int a, Vector2Int b)
         {
