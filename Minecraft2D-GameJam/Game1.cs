@@ -35,7 +35,7 @@ namespace Minecraft2D
             GLOBALS.Pixel = GLOBALS.CreateWhitePixel(GraphicsDevice);
             GLOBALS.Font = Content.Load<SpriteFont>("Font");
             GLOBALS.Game = this;
-            gameManager = new GameManager(this);
+            gameManager = new GameManager();
             // TODO: use this.Content to load your game content here
         }
         protected override void Update(GameTime gameTime)

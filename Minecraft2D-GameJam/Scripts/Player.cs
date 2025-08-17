@@ -1,4 +1,5 @@
 ﻿
+using Bloom_Sack.Engine.Drawings;
 using Engine;
 using ImGuiNET;
 using System;
@@ -30,8 +31,7 @@ namespace Minecraft2D.Scripts
             texture = GLOBALS.Content.Load<Texture2D>("player");
             textureSize = new Vector2Int(16, 16);
             frameRender = new Rectangle(0,0, textureSize.Width, textureSize.Height);
-            spriteSizeScale = 3f;
-
+            //spriteSizeScale = 3f;
             currentLookDir = LookDirections.Down;
 
             this.trees = trees;
@@ -146,6 +146,10 @@ namespace Minecraft2D.Scripts
         public override void Draw()
         {
             base.Draw(frameRender);
+        }
+        public void DrawHitBox()
+        {
+            Shape.DrawEmptyBox(hitbox);
         }
     }
 }

@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36327.8 d17.14
+VisualStudioVersion = 17.14.36327.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minecraft2D-GameJam", "Minecraft2D-GameJam\Minecraft2D-GameJam.csproj", "{073AFCF3-7D35-45AB-83FF-E1AAF575CACD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EngineArt", "..\EngineArt\EngineArt.csproj", "{57504BE3-BE5F-E6FF-C01D-6792BBDEFD33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monogame.ImGuiNet", "..\MonoGame.ImGuiNet-main\MonoGame.ImGuiNet\Monogame.ImGuiNet.csproj", "{FDCCDC4C-790D-E2B1-6754-D378926745BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{073AFCF3-7D35-45AB-83FF-E1AAF575CACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{073AFCF3-7D35-45AB-83FF-E1AAF575CACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{073AFCF3-7D35-45AB-83FF-E1AAF575CACD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57504BE3-BE5F-E6FF-C01D-6792BBDEFD33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57504BE3-BE5F-E6FF-C01D-6792BBDEFD33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57504BE3-BE5F-E6FF-C01D-6792BBDEFD33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57504BE3-BE5F-E6FF-C01D-6792BBDEFD33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDCCDC4C-790D-E2B1-6754-D378926745BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDCCDC4C-790D-E2B1-6754-D378926745BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDCCDC4C-790D-E2B1-6754-D378926745BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDCCDC4C-790D-E2B1-6754-D378926745BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
