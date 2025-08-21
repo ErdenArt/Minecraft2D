@@ -1,6 +1,7 @@
 ﻿
 using Bloom_Sack.Engine.Drawings;
 using Engine;
+using Engine.TileMap;
 using ImGuiNET;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Minecraft2D.Scripts
     internal class Player : Sprite
     {
         Rectangle frameRender = Rectangle.Empty;
-        Rectangle hitbox { get { return new Rectangle(drawPosition.X - 8, drawPosition.Y - 8, 16, 16); } }
+        Rectangle hitbox { get { return new Rectangle(drawPosition.X - 5, drawPosition.Y - 8, 10, 16); } }
         enum LookDirections
         {
             Down,
@@ -26,7 +27,8 @@ namespace Minecraft2D.Scripts
         LookDirections currentLookDir;
         float speed = 2;
         List<Tree> trees;
-        public Player(ref List<Tree> trees)
+        TileMap2D objectTiles;
+        public Player(ref List<Tree> trees, TileMap2D objectTiles)
         {
             texture = GLOBALS.Content.Load<Texture2D>("player");
             textureSize = new Vector2Int(16, 16);
@@ -34,6 +36,7 @@ namespace Minecraft2D.Scripts
             //spriteSizeScale = 3f;
             currentLookDir = LookDirections.Down;
 
+            this.objectTiles = objectTiles;
             this.trees = trees;
         }
         int animateTime;
@@ -54,6 +57,10 @@ namespace Minecraft2D.Scripts
             attackPos += position;
             if (Input.GetKeyDown(Keys.L))
             {
+                if (objectTiles.TryGetCloseTile(attackPos, out var tile))
+                {
+                    objectTiles.RemoveTile(tile.Item1);
+                }
                 foreach (Tree tree in trees)
                 {
                     if (tree.hitbox.Contains(attackPos.X, attackPos.Y))
@@ -85,18 +92,23 @@ namespace Minecraft2D.Scripts
             frameRender = new Rectangle(textureSize.Width * doAnimate * frame, textureSize.Height * dir, textureSize.Width, textureSize.Height);
 
             Rectangle newHitBox = new Rectangle(hitbox.X + (int)moveDir.X, hitbox.Y, hitbox.Width, hitbox.Height);
-            foreach (var t in trees)
+            List<Rectangle> allHitBoxes = new();
+
+            allHitBoxes.AddRange([.. trees.Select(tree => tree.hitbox)]);
+            allHitBoxes.AddRange(objectTiles.GetCollision());
+            Debug.WriteLine(allHitBoxes.Count);
+            foreach (var hitbox in allHitBoxes)
             {
-                if (newHitBox.Intersects(t.hitbox))
+                if (newHitBox.Intersects(hitbox))
                 {
                     if (moveDir.X > 0)
                     {
-                        position.X = t.hitbox.Left - textureSize.Width / 2;
+                        position.X = hitbox.Left - newHitBox.Width / 2;
                         moveDir.X = 0;
                     }
                     if (moveDir.X < 0)
                     {
-                        position.X = t.hitbox.Right + textureSize.Width / 2;
+                        position.X = hitbox.Right + newHitBox.Width / 2;
                         moveDir.X = 0;
                     }
                 }
@@ -104,18 +116,18 @@ namespace Minecraft2D.Scripts
             position.X += moveDir.X;
 
             newHitBox = new Rectangle(hitbox.X, hitbox.Y + (int)moveDir.Y, hitbox.Width, hitbox.Height);
-            foreach (var t in trees)
+            foreach (var hitbox in allHitBoxes)
             {
-                if (newHitBox.Intersects(t.hitbox))
+                if (newHitBox.Intersects(hitbox))
                 {
                     if (moveDir.Y < 0)
                     {
-                        position.Y = t.hitbox.Bottom + textureSize.Height / 2;
+                        position.Y = hitbox.Bottom + newHitBox.Height / 2;
                         moveDir.Y = 0;
                     }
                     if (moveDir.Y > 0)
                     {
-                        position.Y = t.hitbox.Top - textureSize.Height / 2;
+                        position.Y = hitbox.Top - newHitBox.Height / 2;
                         moveDir.Y = 0;
                     }
                 }

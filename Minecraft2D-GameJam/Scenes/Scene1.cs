@@ -18,7 +18,8 @@ namespace Minecraft2D.Scenes
 {
     class Scene1 : Scene
     {
-        TileMap2D tiles;
+        TileMap2D backgroundTiles;
+        TileMap2D objectTiles;
         Player player;
         List<Tree> tree;
         Camera camera;
@@ -27,6 +28,25 @@ namespace Minecraft2D.Scenes
         bool doShowTreeHitbox = false;
         bool doShowPlayerHitbox = false;
 
+        protected override void Load()
+        {
+            Texture2D txt = GLOBALS.Content.Load<Texture2D>("tiles/grass");
+
+            backgroundTiles = new TileMap2D(Vector2.Zero, txt, new Vector2Int(16, 16), 16, new Vector2Int(10, 10));
+            objectTiles = new TileMap2D(Vector2.Zero, txt, new Vector2Int(16, 16), 16, new Vector2Int(3, 3));
+            objectTiles.colorOfTiles = Color.Black;
+
+            tree = new List<Tree>() { new Tree(new Vector2(100, 100)), new Tree(new Vector2(100, 400)) };
+
+            player = new Player(ref tree, objectTiles);
+
+            rendererGUI = new ImGuiRenderer(GLOBALS.Game);
+            rendererGUI.RebuildFontAtlas();
+
+            camera = new Camera();
+            camera.Update(Vector2.Zero, 1.5f);
+            //camera.Zoom = 1.5f;
+        }
         public override void Activate(int enterDoor)
         {
             
@@ -47,7 +67,7 @@ namespace Minecraft2D.Scenes
         protected override void Draw()
         {
             GLOBALS.SpriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: camera.GetMatrix());
-            tiles.Draw();
+            backgroundTiles.Draw();
             player.Draw();
             if (doShowPlayerHitbox) player.DrawHitBox();
             foreach (Tree t in tree)
@@ -58,7 +78,7 @@ namespace Minecraft2D.Scenes
                     t.DrawHitBox();
                 }
             }
-            
+            objectTiles.Draw();
             GLOBALS.SpriteBatch.End();
 
             rendererGUI.BeginLayout(GLOBALS.Time);
@@ -72,23 +92,6 @@ namespace Minecraft2D.Scenes
             ImGui.End();
 
             rendererGUI.EndLayout();
-        }
-
-        protected override void Load()
-        {
-            Texture2D txt = GLOBALS.Content.Load<Texture2D>("tiles/grass");
-
-            tiles = new TileMap2D(Vector2.Zero, txt, new Vector2Int(16, 16), 16, new Vector2Int(10, 10));
-            tree = new List<Tree>() { new Tree(new Vector2(100, 100)), new Tree(new Vector2(100, 400)) };
-
-            player = new Player(ref tree);
-
-            rendererGUI = new ImGuiRenderer(GLOBALS.Game);
-            rendererGUI.RebuildFontAtlas();
-
-            camera = new Camera();
-            camera.Update(Vector2.Zero, 1.5f);
-            //camera.Zoom = 1.5f;
         }
     }
 }
