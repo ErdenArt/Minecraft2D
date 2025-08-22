@@ -33,8 +33,8 @@ namespace Minecraft2D.Scenes
             Texture2D txt = GLOBALS.Content.Load<Texture2D>("tiles/grass");
 
             backgroundTiles = new TileMap2D(Vector2.Zero, txt, new Vector2Int(16, 16), 16, new Vector2Int(10, 10));
-            objectTiles = new TileMap2D(Vector2.Zero, txt, new Vector2Int(16, 16), 16, new Vector2Int(3, 3));
-            objectTiles.colorOfTiles = Color.Black;
+            objectTiles = new TileMap2D(Vector2.Zero, GLOBALS.Pixel, new Vector2Int(16, 16), 16, new Vector2Int(3, 3));
+            objectTiles.colorOfTiles = Color.Orange;
 
             tree = new List<Tree>() { new Tree(new Vector2(100, 100)), new Tree(new Vector2(100, 400)) };
 

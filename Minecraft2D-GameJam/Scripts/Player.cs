@@ -1,6 +1,7 @@
 ﻿
 using Bloom_Sack.Engine.Drawings;
 using Engine;
+using Engine.Drawings.UI;
 using Engine.TileMap;
 using ImGuiNET;
 using System;
@@ -28,6 +29,12 @@ namespace Minecraft2D.Scripts
         float speed = 2;
         List<Tree> trees;
         TileMap2D objectTiles;
+
+        UICanvas inventory = new UICanvas(new List<Action>()
+        {
+            () => UIBoxes.Draw()
+        });
+        
         public Player(ref List<Tree> trees, TileMap2D objectTiles)
         {
             texture = GLOBALS.Content.Load<Texture2D>("player");
