@@ -4,6 +4,7 @@ using Engine;
 using Engine.Drawings.UI;
 using Engine.TileMap;
 using ImGuiNET;
+using Minecraft2D.Scenes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,12 +31,19 @@ namespace Minecraft2D.Scripts
         List<Tree> trees;
         TileMap2D objectTiles;
 
-        UICanvas inventory = new UICanvas(new List<Action>()
+        UIText uiText = new UIText()
         {
-            () => UIBoxes.Draw()
-        });
-        
-        public Player(ref List<Tree> trees, TileMap2D objectTiles)
+            Position = new Vector2Int(10, 10),
+            Text = ""
+        };
+        UIBoxes backBox = new UIBoxes()
+        {
+            BackgroundColor = Color.Red,
+            Alignment = EngineArt.Engine.Drawings.UI.Alignments.Bottom,
+            Bounds = new Rectangle(0, 0, 500, 30),
+        };
+        UIBoxes[] inventorySlot = new UIBoxes[9];
+        public Player(ref List<Tree> trees, TileMap2D objectTiles, ref Camera cam)
         {
             texture = GLOBALS.Content.Load<Texture2D>("player");
             textureSize = new Vector2Int(16, 16);
@@ -45,6 +53,18 @@ namespace Minecraft2D.Scripts
 
             this.objectTiles = objectTiles;
             this.trees = trees;
+
+            Scene1.canvas.AddChild(backBox);
+            backBox.AddChild(uiText);
+
+            for (int i = 0; i < 9; i++)
+            {
+                inventorySlot[i] = new UIBoxes();
+                inventorySlot[i].Bounds = new Rectangle(20 * i + 2,2,25,25);
+                inventorySlot[i].BackgroundColor = Color.White;
+                backBox.AddChild(inventorySlot[i]);
+                Debug.WriteLine(inventorySlot[i].Parent.FinalBounds);
+            }
         }
         int animateTime;
         public void Update()
@@ -76,6 +96,8 @@ namespace Minecraft2D.Scripts
                     }
                 }
             }
+
+            uiText.Text = Scene1.showText;
         }
         void Movement()
         {
@@ -103,7 +125,7 @@ namespace Minecraft2D.Scripts
 
             allHitBoxes.AddRange([.. trees.Select(tree => tree.hitbox)]);
             allHitBoxes.AddRange(objectTiles.GetCollision());
-            Debug.WriteLine(allHitBoxes.Count);
+            //Debug.WriteLine(allHitBoxes.Count);
             foreach (var hitbox in allHitBoxes)
             {
                 if (newHitBox.Intersects(hitbox))
@@ -165,6 +187,7 @@ namespace Minecraft2D.Scripts
         public override void Draw()
         {
             base.Draw(frameRender);
+            //uiText.Draw();
         }
         public void DrawHitBox()
         {

@@ -28,8 +28,13 @@ namespace Minecraft2D.Scenes
         bool doShowTreeHitbox = false;
         bool doShowPlayerHitbox = false;
 
+        public static UICanvas canvas;
+        public static string showText = "Kaczka";
+
         protected override void Load()
         {
+            canvas = new UICanvas();
+
             Texture2D txt = GLOBALS.Content.Load<Texture2D>("tiles/grass");
 
             backgroundTiles = new TileMap2D(Vector2.Zero, txt, new Vector2Int(16, 16), 16, new Vector2Int(10, 10));
@@ -38,13 +43,14 @@ namespace Minecraft2D.Scenes
 
             tree = new List<Tree>() { new Tree(new Vector2(100, 100)), new Tree(new Vector2(100, 400)) };
 
-            player = new Player(ref tree, objectTiles);
 
             rendererGUI = new ImGuiRenderer(GLOBALS.Game);
             rendererGUI.RebuildFontAtlas();
 
             camera = new Camera();
             camera.Update(Vector2.Zero, 1.5f);
+            
+            player = new Player(ref tree, objectTiles, ref camera);
             //camera.Zoom = 1.5f;
         }
         public override void Activate(int enterDoor)
@@ -64,6 +70,8 @@ namespace Minecraft2D.Scenes
 
             if (Input.GetKeyDown(Keys.M)) ResetScene();
         }
+        Vector2 positionOfRect = new Vector2();
+        Vector2 sizeOfRect = new Vector2();
         protected override void Draw()
         {
             GLOBALS.SpriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: camera.GetMatrix());
@@ -79,6 +87,12 @@ namespace Minecraft2D.Scenes
                 }
             }
             objectTiles.Draw();
+
+            GLOBALS.SpriteBatch.End();
+
+            //UI ELEMENTS
+            GLOBALS.SpriteBatch.Begin();
+            canvas.Draw();
             GLOBALS.SpriteBatch.End();
 
             rendererGUI.BeginLayout(GLOBALS.Time);
@@ -89,6 +103,7 @@ namespace Minecraft2D.Scenes
             ImGui.SliderFloat("Camera ZOOM: ", ref camera.Zoom, 0, 5);
             ImGui.Checkbox("Show tree hitbox", ref doShowTreeHitbox);
             ImGui.Checkbox("Show player hitbox", ref doShowPlayerHitbox);
+            ImGui.InputText("Display text:", ref showText, 30);
             ImGui.End();
 
             rendererGUI.EndLayout();
