@@ -29,7 +29,6 @@ namespace Minecraft2D.Scenes
         bool doShowPlayerHitbox = false;
 
         public static UICanvas canvas;
-        public static string showText = "Kaczka";
 
         protected override void Load()
         {
@@ -70,8 +69,6 @@ namespace Minecraft2D.Scenes
 
             if (Input.GetKeyDown(Keys.M)) ResetScene();
         }
-        Vector2 positionOfRect = new Vector2();
-        Vector2 sizeOfRect = new Vector2();
         protected override void Draw()
         {
             GLOBALS.SpriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: camera.GetMatrix());
@@ -103,7 +100,6 @@ namespace Minecraft2D.Scenes
             ImGui.SliderFloat("Camera ZOOM: ", ref camera.Zoom, 0, 5);
             ImGui.Checkbox("Show tree hitbox", ref doShowTreeHitbox);
             ImGui.Checkbox("Show player hitbox", ref doShowPlayerHitbox);
-            ImGui.InputText("Display text:", ref showText, 30);
             ImGui.End();
 
             rendererGUI.EndLayout();

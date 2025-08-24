@@ -33,8 +33,8 @@ namespace Minecraft2D.Scripts
 
         UIText uiText = new UIText()
         {
-            Position = new Vector2Int(10, 10),
-            Text = ""
+            Position = new Vector2Int(10, -20),
+            Text = "Inventory"
         };
         UIBoxes backBox = new UIBoxes()
         {
@@ -43,6 +43,8 @@ namespace Minecraft2D.Scripts
             Bounds = new Rectangle(0, 0, 500, 30),
         };
         UIBoxes[] inventorySlot = new UIBoxes[9];
+        UIBoxes[] inventorySlotItemIcon = new UIBoxes[9];
+        UIText[] inventorySlotItemCount = new UIText[9];
         public Player(ref List<Tree> trees, TileMap2D objectTiles, ref Camera cam)
         {
             texture = GLOBALS.Content.Load<Texture2D>("player");
@@ -60,8 +62,22 @@ namespace Minecraft2D.Scripts
             for (int i = 0; i < 9; i++)
             {
                 inventorySlot[i] = new UIBoxes();
-                inventorySlot[i].Bounds = new Rectangle(20 * i + 2,2,25,25);
+                inventorySlot[i].Bounds = new Rectangle(35 * i + 2,-2,30,30);
                 inventorySlot[i].BackgroundColor = Color.White;
+
+                inventorySlotItemIcon[i] = new UIBoxes();
+                inventorySlotItemIcon[i].Bounds = new Rectangle(0, 0, 24, 24);
+                inventorySlotItemIcon[i].Alignment = EngineArt.Engine.Drawings.UI.Alignments.Center;
+                inventorySlotItemIcon[i].BackgroundColor = Color.Orange;
+
+                inventorySlotItemCount[i] = new UIText();
+                inventorySlotItemCount[i].Text = "0";
+                inventorySlotItemCount[i].Alignment = EngineArt.Engine.Drawings.UI.Alignments.BottomRight;
+                inventorySlotItemCount[i].TextColor = Color.Black;
+
+                inventorySlot[i].AddChild(inventorySlotItemIcon[i]);
+                inventorySlot[i].AddChild(inventorySlotItemCount[i]);
+
                 backBox.AddChild(inventorySlot[i]);
                 Debug.WriteLine(inventorySlot[i].Parent.FinalBounds);
             }
@@ -96,8 +112,6 @@ namespace Minecraft2D.Scripts
                     }
                 }
             }
-
-            uiText.Text = Scene1.showText;
         }
         void Movement()
         {
