@@ -2,6 +2,7 @@
 using Engine.Mathematic;
 using Engine.Scenes;
 using Engine.TileMap;
+using EngineArt.Engine;
 using ImGuiNET;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,8 +21,8 @@ namespace Minecraft2D.Scenes
     {
         TileMap2D backgroundTiles;
         TileMap2D objectTiles;
-        Player player;
-        List<Tree> tree;
+        BADPlayer player;
+        List<Collider> tree;
         Camera camera;
 
         ImGuiRenderer rendererGUI;
@@ -40,8 +41,8 @@ namespace Minecraft2D.Scenes
             objectTiles = new TileMap2D(Vector2.Zero, GLOBALS.Pixel, new Vector2Int(16, 16), 16, new Vector2Int(3, 3));
             objectTiles.colorOfTiles = Color.Orange;
 
-            tree = new List<Tree>() { new Tree(new Vector2(100, 100)), new Tree(new Vector2(100, 400)) };
-
+            //tree = new List<Tree>() { new Tree(new Vector2(100, 100)), new Tree(new Vector2(100, 400)) };
+            tree = new List<Collider>();
 
             rendererGUI = new ImGuiRenderer(GLOBALS.Game);
             rendererGUI.RebuildFontAtlas();
@@ -49,7 +50,7 @@ namespace Minecraft2D.Scenes
             camera = new Camera();
             camera.Update(Vector2.Zero, 1.5f);
             
-            player = new Player(ref tree, objectTiles, ref camera);
+            player = new BADPlayer(ref tree, objectTiles);
             //camera.Zoom = 1.5f;
         }
         public override void Activate(int enterDoor)
@@ -64,8 +65,8 @@ namespace Minecraft2D.Scenes
             {
                 //tree.Add(new Tree(Input.GetMousePosition().ToVector2()));
             }
-            tree.RemoveAll(tree => tree.isActive == false);
-            camera.Update(player.position, camera.Zoom);
+            tree.RemoveAll(tree => tree.IsActive == false);
+            camera.Update(player.Position, camera.Zoom);
 
             if (Input.GetKeyDown(Keys.M)) ResetScene();
         }
@@ -74,14 +75,14 @@ namespace Minecraft2D.Scenes
             GLOBALS.SpriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: camera.GetMatrix());
             backgroundTiles.Draw();
             player.Draw();
-            if (doShowPlayerHitbox) player.DrawHitBox();
-            foreach (Tree t in tree)
+            //if (doShowPlayerHitbox) player.DrawHitBox();
+            foreach (Collider t in tree)
             {
-                t.Draw();
-                if (doShowTreeHitbox)
-                {
-                    t.DrawHitBox();
-                }
+                //t.Draw();
+                //if (doShowTreeHitbox)
+                //{
+                //    t.DrawHitBox();
+                //}
             }
             objectTiles.Draw();
 
@@ -95,7 +96,7 @@ namespace Minecraft2D.Scenes
             rendererGUI.BeginLayout(GLOBALS.Time);
 
             ImGui.Begin("idk");
-            ImGui.Text($"Player position: ({player.position.X} : {player.position.Y})");
+            ImGui.Text($"Player position: ({player.Position.X} : {player.Position.Y})");
             ImGui.Text($"Camera position: ({camera.GetPosition().X} : {camera.GetPosition().Y})");
             ImGui.SliderFloat("Camera ZOOM: ", ref camera.Zoom, 0, 5);
             ImGui.Checkbox("Show tree hitbox", ref doShowTreeHitbox);

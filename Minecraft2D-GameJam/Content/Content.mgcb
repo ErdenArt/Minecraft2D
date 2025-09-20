@@ -32,6 +32,9 @@
 /processorParam:TextureFormat=Color
 /build:player.png
 
+#begin scene.csv
+/copy:scene.csv
+
 #begin tiles/grass.png
 /importer:TextureImporter
 /processor:TextureProcessor

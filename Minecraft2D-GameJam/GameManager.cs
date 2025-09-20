@@ -12,6 +12,10 @@ namespace Engine
             //sceneManager = new SceneManager(this);
             sceneManager = new SceneManager(new Scene1(), "test");
             sceneManager.AddNewScene(new Scene2(), "haha");
+            sceneManager.AddNewScene(new WorldScene(), "world");
+
+            sceneManager.SwitchScene("world");
+
             rendererGUI = new ImGuiRenderer(GLOBALS.Game);
             rendererGUI.RebuildFontAtlas();
         }
@@ -20,6 +24,7 @@ namespace Engine
             sceneManager.Update();
             if (Input.GetKeyDown(Keys.P)) sceneManager.SwitchScene(1);
             if (Input.GetKeyDown(Keys.L)) sceneManager.SwitchScene("test");
+            if (Input.GetKeyDown(Keys.K)) sceneManager.SwitchScene("world");
         }
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
